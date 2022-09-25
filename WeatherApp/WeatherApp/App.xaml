@@ -1,8 +1,187 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Application xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="WeatherApp.App">
+<Application
+    x:Class="WeatherApp.App"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:renderers="clr-namespace:WeatherApp.Renderers"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit">
     <Application.Resources>
+
+        <!--Converters-->
+        <xct:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        <xct:MathExpressionConverter x:Key="MathExpressionConverter" />
+        <xct:MultiMathExpressionConverter x:Key="MultiMathExpressionConverter" />
+        
+        <!--  Colors ........................................  -->
+
+        <Color x:Key="clr-statusbar">#fff</Color>
+        <Color x:Key="clr-statusbar-dark">#222</Color>
+
+        <Color x:Key="clr-toolbar">#92c8e6</Color>
+        <Color x:Key="clr-toolbar-dark">#020936</Color>
+
+        <Color x:Key="clr-primary">#92c8e6</Color>
+        <Color x:Key="clr-primary-dark">#0156ad</Color>
+        <Color x:Key="clr-primary-light">#eef1f6</Color>
+
+        <Color x:Key="clr-system">#54CBD7</Color>
+
+        <Color x:Key="clr-accent">#1D7CF3</Color>
+        <Color x:Key="clr-accent-dark">#020936</Color>
+        <Color x:Key="clr-accent-light">#1D7CF3</Color>
+
+        <Color x:Key="clr-text-primary">#222</Color>
+        <Color x:Key="clr-text-secondary">#90A3A5</Color>
+        <Color x:Key="clr-text-secondary-dark">#aeaeb1</Color>
+        <Color x:Key="clr-text-bright">#fff</Color>
+
+        <Color x:Key="clr-bg-main">#fff</Color>
+        <Color x:Key="clr-bg-main-dark">#222</Color>
+
+        <Color x:Key="clr-separator-light">#B5CBCE</Color>
+        <Color x:Key="clr-separator-dark">#aeaeb1</Color>
+
+        <!--  Brushes ........................................  -->
+
+        <LinearGradientBrush x:Key="brush-bg" EndPoint="0,1">
+            <GradientStop Color="#92c8e6"
+                          Offset="0.1" />
+            <GradientStop Color="#eef1f6"
+                          Offset="1.0" />
+        </LinearGradientBrush>
+        
+        <LinearGradientBrush x:Key="brush-bg-dark" EndPoint="0,1">
+            <GradientStop Color="#020936"
+                          Offset="0.1" />
+            <GradientStop Color="#0156ad"
+                          Offset="1.0" />
+        </LinearGradientBrush>      
+        
+        <LinearGradientBrush x:Key="brush-system" EndPoint="1,0">
+            <GradientStop Color="#020936"
+                          Offset="0.1" />
+            <GradientStop Color="#92c8e6"
+                          Offset="1.0" />
+        </LinearGradientBrush>
+
+        <RadialGradientBrush x:Key="brush-frame">
+            <GradientStop Color="#1AFFFFFF"
+                          Offset="0." />
+            <GradientStop Color="#26FFFFFF"
+                          Offset="1.0" />
+        </RadialGradientBrush>
+
+        <!--  Target Styles ........................................  -->
+
+        <!--  Default  -->
+        <Style TargetType="StackLayout">
+            <Setter Property="BackgroundColor" Value="Transparent" />
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource clr-text-bright}, Light={StaticResource clr-text-primary}}" />
+        </Style>    
+                   
+        <Style TargetType="Entry">
+            <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource clr-text-bright}, Light={StaticResource clr-text-primary}}" />
+        </Style>         
+        
+        <Style TargetType="renderers:BorderlessEntry">
+            <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource clr-text-bright}, Light={StaticResource clr-text-primary}}" />
+            <Setter Property="PlaceholderColor" Value="{AppThemeBinding Dark={StaticResource clr-text-secondary-dark}, Light={StaticResource clr-text-secondary}}" />
+        </Style>    
+        
+
+        <!--  Custom  -->
+        <Style Class="label-secondary" TargetType="Label">
+            <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource clr-text-secondary-dark}, Light={StaticResource clr-text-secondary}}" />
+        </Style>
+
+
+        <Style TargetType="StackLayout" Class="main-bg">
+            <Setter Property="Background" Value="{AppThemeBinding Dark={StaticResource brush-bg-dark}, Light={StaticResource brush-bg}}" />
+        </Style>   
+        
+        <Style TargetType="Frame" Class="basic-frame">
+            <Setter Property="Background" Value="{StaticResource brush-frame}" />
+            <Setter Property="CornerRadius" Value="20" />
+            <Setter Property="Margin" Value="20" />
+            <Setter Property="Padding" Value="20" />
+        </Style>
+
+
+        <Style Class="separator" TargetType="BoxView">
+            <Setter Property="HeightRequest" Value="1" />
+            <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+            <Setter Property="Color" Value="{AppThemeBinding Dark={StaticResource clr-separator-dark}, Light={StaticResource clr-separator-light}}" />
+        </Style>
+
+
+        <Style Class="SimpleButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="Transparent" />
+            <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource clr-text-bright}, Light={StaticResource clr-text-primary}}" />
+        </Style>
+
+
+        <!--  Templates  -->
+
+        <ControlTemplate x:Key="BasicRadioTemplate">
+            <Frame
+                    Padding="0"
+                    BackgroundColor="Transparent"
+                    CornerRadius="10"
+                    HasShadow="False"
+                    HeightRequest="100"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Start"
+                    WidthRequest="100">
+                <Grid Margin="4" WidthRequest="80">
+                    <Grid
+                        HeightRequest="20"
+                        HorizontalOptions="End"
+                        VerticalOptions="Start"
+                        WidthRequest="20">
+                        <Ellipse
+                            Fill="White"
+                            HeightRequest="14"
+                            HorizontalOptions="Center"
+                            Stroke="#3B3B3B"
+                            StrokeThickness="1"
+                            VerticalOptions="Center"
+                            WidthRequest="14" />
+                        <Ellipse
+                            x:Name="Check"
+                            BackgroundColor="Transparent"
+                            Fill="{StaticResource brush-bg-dark}"
+                            HeightRequest="8"
+                            HorizontalOptions="Center"
+                            Stroke="{StaticResource brush-bg-dark}"
+                            StrokeThickness="0"
+                            VerticalOptions="Center"
+                            WidthRequest="8" />
+                    </Grid>
+                    <ContentPresenter />
+                </Grid>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CheckedStates">
+                            <VisualState x:Name="Checked">
+                                <VisualState.Setters>
+                                    <Setter Property="BorderColor" Value="Transparent" />
+                                    <Setter TargetName="Check" Property="Opacity" Value="1" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Unchecked">
+                                <VisualState.Setters>
+                                    <Setter Property="BorderColor" Value="Transparent" />
+                                    <Setter TargetName="Check" Property="Opacity" Value="0" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+            </Frame>
+        </ControlTemplate>
 
     </Application.Resources>
 </Application>

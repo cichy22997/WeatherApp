@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="WeatherApp.Views.MainView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:WeatherApp.Components"
+    xmlns:viewModels="clr-namespace:WeatherApp.ViewModels" xmlns:models="clr-namespace:WeatherApp.Models" 
+    xmlns:controls="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
+    xmlns:renderers="clr-namespace:WeatherApp.Renderers"
+    x:DataType="viewModels:MainPageViewModel"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    NavigationPage.HasNavigationBar="False"
+    x:Name="root">
+    <ContentPage.Content>
+        <StackLayout class="main-bg">
+            <components:Toolbar>
+                <FlexLayout JustifyContent="SpaceBetween" AlignItems="Center">
+                    <Image HeightRequest="30" WidthRequest="30" Aspect="AspectFit" Source="logo.png" VerticalOptions="Center"/>
+                    <Button
+                        TextTransform="None"
+                        BackgroundColor="Transparent"
+                        Command="{Binding OptionsCommand}"
+                        Text="Options"
+                        xct:TouchEffect.NativeAnimation="True"
+                        class="SimpleButton" />
+                </FlexLayout>
+            </components:Toolbar>
+            <StackLayout Padding="20, 20, 20, 0">
+                <Frame HeightRequest="40" class="basic-frame" HorizontalOptions="FillAndExpand" Margin="0" Padding="10, 5">
+                    <Grid ColumnDefinitions="*, auto" HorizontalOptions="FillAndExpand" RowDefinitions="auto">
+                        <renderers:BorderlessEntry Grid.Column="0" 
+                                                   FontSize="14"
+                                                   HorizontalOptions="FillAndExpand" 
+                                                   Placeholder="Name of a city" 
+                                                   ReturnCommand="{Binding GetDataCommand}" 
+                                                   ReturnType="Search" Text="{Binding EntryText}"/>
+                        <Button Grid.Column="1"
+                                class="SimpleButton"
+                                Text="Search"
+                                FontSize="12"
+                                Command="{Binding GetDataCommand}"
+                                xct:TouchEffect.NativeAnimation="true"/>
+                    </Grid>
+                </Frame>
+                <Label class="SimpleButton" 
+                       xct:TouchEffect.NativeAnimation="true" 
+                       VerticalTextAlignment="Center" 
+                       HorizontalTextAlignment="Center" 
+                       Margin="0,-6,0,0" 
+                       Padding="10" HeightRequest="40" 
+                       HorizontalOptions="End" Text="Mark as default" 
+                       TextTransform="None" FontSize="12"
+                       xct:TouchEffect.Command="{Binding MarkAsDefaultCommand}" />
+
+
+
+                <RefreshView  Command="{Binding GetDataCommand}"
+                              IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}">
+
+                    <CollectionView ItemsSource="{Binding WeatherCollection}"
+                                    VerticalOptions="FillAndExpand" 
+                                    HorizontalOptions="FillAndExpand"
+                                    ItemSizingStrategy="MeasureAllItems">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:WeatherModel">
+                                <StackLayout Margin="0,0,0,20" HorizontalOptions="FillAndExpand">
+                                    <Frame class="basic-frame" HorizontalOptions="FillAndExpand"
+                                           Padding="20,10,20,20" Margin="0"
+                                           xct:TouchEffect.Command="{Binding Source={x:Reference root}, Path=BindingContext.ItemTappedCommand}"
+                                           xct:TouchEffect.CommandParameter="{Binding .}"
+                                           xct:TouchEffect.NativeAnimation="true">
+                                        <StackLayout HorizontalOptions="FillAndExpand">
+                                            <StackLayout HorizontalOptions="FillAndExpand">
+                                                <FlexLayout JustifyContent="SpaceBetween">
+                                                    <Label FontSize="20" 
+                                                           Text="{Binding CityName}"/>
+                                                    <Label FontSize="14"
+                                                           VerticalTextAlignment="End"
+                                                           HorizontalOptions="End" 
+                                                           Text="{Binding WeatherType}"/>
+                                                </FlexLayout>
+
+                                                <FlexLayout JustifyContent="SpaceBetween">
+                                                    <Label FontSize="12"  
+                                                           Margin="0,-5,0,0" 
+                                                           class="label-secondary"
+                                                           Text="{Binding StationName}"/>
+                                                    <Label FontSize="10"  
+                                                           class="label-secondary"
+                                                           Margin="0,-5,0,0" 
+                                                           HorizontalOptions="End" 
+                                                           Text="{Binding WeatherTypeDescription}"/>
+                                                </FlexLayout>
+                                            </StackLayout>
+                                            <BoxView class="separator"/>
+
+                                            <StackLayout Margin="0,10,0,0">
+                                                <FlexLayout JustifyContent="SpaceBetween">
+                                                    <Label Text="Temperature"/>
+                                                    <Label Text="{Binding MainWeatherInfo.Temp, StringFormat='{0} °C', Converter={StaticResource MathExpressionConverter}, ConverterParameter='round(x - 272.15, 2)'}"/>
+                                                </FlexLayout>
+                                                <FlexLayout JustifyContent="SpaceBetween">
+                                                    <Label Text="Humidity"/>
+                                                    <Label Text="{Binding MainWeatherInfo.Humidity, StringFormat='{0} %'}"/>
+                                                </FlexLayout>
+                                                <FlexLayout JustifyContent="SpaceBetween">
+                                                    <Label Text="Pressure"/>
+                                                    <Label Text="{Binding MainWeatherInfo.Pressure, StringFormat='{0} hPa'}"/>
+                                                </FlexLayout>
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </Frame>
+                                </StackLayout>
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </RefreshView>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

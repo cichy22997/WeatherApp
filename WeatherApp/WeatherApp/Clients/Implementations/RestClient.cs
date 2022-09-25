@@ -4,24 +4,34 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using MvvmCross.Platform.Logging;
 using Newtonsoft.Json;
 using WeatherApp.Core.Clients.Interfaces;
 using WeatherApp.Core.Enums;
-using WeatherApp.Core.Helpers;
+using WeatherApp.Extentions;
 
 namespace WeatherApp.Core.Clients.Implementations
 {
     public class RestClient : IRestClient
     {
-        private readonly IMvxLog _mvxLog;
-        public RestClient(IMvxLog mvxLog)
-        {
-            _mvxLog = mvxLog;
-        }
         private TimeSpan defaultTimeout = TimeSpan.FromSeconds(30);
 
-        public RestClient() { }
+        private static readonly RestClient instance = new RestClient();
+
+        static RestClient()
+        {
+        }
+
+        private RestClient()
+        {
+        }
+
+        public static RestClient Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
 
         public async Task<T> Execute<T>(string endPoint, ContentType contentType, HttpMethodType method, string json = "", JsonSerializerSettings jsonSettings = null, TimeSpan? timeout = null, Dictionary<string, string> headers = null)
         {

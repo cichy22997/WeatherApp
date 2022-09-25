@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:components="clr-namespace:WeatherApp.Components"
+             x:Class="WeatherApp.Views.DetailsView">
+    <ContentPage.Content>
+        <StackLayout class="main-bg">
+            <components:Toolbar>
+            </components:Toolbar>
+
+            <FlexLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="20" AlignItems="Center">
+                <Frame class="basic-frame" HorizontalOptions="FillAndExpand" VerticalOptions="Center"
+                                           Padding="20,10,20,20" Margin="0">
+                    <StackLayout HorizontalOptions="FillAndExpand">
+                        <StackLayout HorizontalOptions="FillAndExpand">
+                            <FlexLayout JustifyContent="SpaceBetween">
+                                <Label FontSize="20" 
+                                                           Text="{Binding WeatherModel.CityName}"/>
+                                <Label FontSize="14"
+                                                           VerticalTextAlignment="End"
+                                                           HorizontalOptions="End" 
+                                                           Text="{Binding WeatherModel.WeatherType}"/>
+                            </FlexLayout>
+
+                            <FlexLayout JustifyContent="SpaceBetween">
+                                <Label FontSize="12"  
+                                                           Margin="0,-5,0,0" 
+                                                           Text="{Binding WeatherModel.StationName}"/>
+                                <Label FontSize="10"  
+                                                           Margin="0,-5,0,0" 
+                                                           HorizontalOptions="End" 
+                                                           Text="{Binding WeatherModel.WeatherTypeDescription}"/>
+                            </FlexLayout>
+                        </StackLayout>
+                        <BoxView class="separator"/>
+
+                        <StackLayout Margin="0,10,0,0">
+                            <FlexLayout JustifyContent="SpaceBetween">
+                                <Label Text="Temperature"/>
+                                <Label Text="{Binding WeatherModel.MainWeatherInfo.Temp, StringFormat='{0} °C', Converter={StaticResource MathExpressionConverter}, ConverterParameter='round(x - 272.15, 2)'}"/>
+                            </FlexLayout>   
+                            
+                            <FlexLayout JustifyContent="SpaceBetween">
+                                <Label Text="Feels like"/>
+                                <Label Text="{Binding WeatherModel.MainWeatherInfo.FeelsLike, StringFormat='{0} °C', Converter={StaticResource MathExpressionConverter}, ConverterParameter='round(x - 272.15, 2)'}"/>
+                            </FlexLayout>         
+                            
+                            <FlexLayout JustifyContent="SpaceBetween">
+                                <Label Text="Minimal temperature"/>
+                                <Label Text="{Binding WeatherModel.MainWeatherInfo.TempMin, StringFormat='{0} °C', Converter={StaticResource MathExpressionConverter}, ConverterParameter='round(x - 272.15, 2)'}"/>
+                            </FlexLayout>
+                                                                           
+                            <FlexLayout JustifyContent="SpaceBetween">
+                                <Label Text="Maximum temperature"/>
+                                <Label Text="{Binding WeatherModel.MainWeatherInfo.TempMax, StringFormat='{0} °C', Converter={StaticResource MathExpressionConverter}, ConverterParameter='round(x - 272.15, 2)'}"/>
+                            </FlexLayout>
+                            
+                            <FlexLayout JustifyContent="SpaceBetween">
+                                <Label Text="Humidity"/>
+                                <Label Text="{Binding WeatherModel.MainWeatherInfo.Humidity, StringFormat='{0} %'}"/>
+                            </FlexLayout>
+                            
+                            <FlexLayout JustifyContent="SpaceBetween">
+                                <Label Text="Pressure"/>
+                                <Label Text="{Binding WeatherModel.MainWeatherInfo.Pressure, StringFormat='{0} hPa'}"/>
+                            </FlexLayout>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+            </FlexLayout>
+
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

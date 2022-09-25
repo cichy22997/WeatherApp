@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:WeatherApp.ViewModels" 
+             xmlns:components="clr-namespace:WeatherApp.Components"
+             xmlns:renderers="clr-namespace:WeatherApp.Renderers"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="WeatherApp.Views.OptionsView"
+             NavigationPage.HasNavigationBar="False"
+             x:DataType="viewModels:OptionsViewModel">
+    <ContentPage.Content>
+        <StackLayout class="main-bg">
+            <components:Toolbar>
+            </components:Toolbar>
+            <StackLayout Padding="20, 0, 20, 20">
+                <Frame class="basic-frame" HorizontalOptions="FillAndExpand"
+                                           Padding="20" Margin="0">
+                    <StackLayout>
+                        <Label Text="Theme" FontSize="20" Margin="0,0,0,10"/>
+                        <ScrollView Orientation="Horizontal">
+                            <FlexLayout JustifyContent="SpaceBetween">
+                                <RadioButton
+                    x:Name="RadioButtonSystemTheme"
+                    ControlTemplate="{StaticResource BasicRadioTemplate}"
+                    HorizontalOptions="Center"
+                    IsChecked="{Binding IsSystemRadioChecked}"
+                    Value="System">
+                                    <RadioButton.Content>
+                                        <StackLayout HorizontalOptions="Center" VerticalOptions="EndAndExpand">
+                                            <BoxView
+                                                HeightRequest="40"
+                                                HorizontalOptions="Center"
+                                                xct:CornerRadiusEffect.CornerRadius="20"
+                                                Color="{StaticResource clr-system}"
+                                WidthRequest="40" />
+                                            <Label
+                                Margin="0,5,0,5"
+                                FontSize="12"
+                                HorizontalOptions="Center"
+                                Text="System" />
+                                        </StackLayout>
+                                    </RadioButton.Content>
+                                </RadioButton>
+                                <RadioButton
+                    x:Name="RadioButtonLightTheme"
+                    Grid.Column="1"
+                    ControlTemplate="{StaticResource BasicRadioTemplate}"
+                    HorizontalOptions="Center"
+                    IsChecked="{Binding IsLightRadioChecked}"
+                    Value="Light">
+                                    <RadioButton.Content>
+                                        <StackLayout HorizontalOptions="Center" VerticalOptions="EndAndExpand">
+                                            <BoxView
+                                HeightRequest="40"
+                                                HorizontalOptions="Center"
+                                                xct:CornerRadiusEffect.CornerRadius="20"
+                                                Color="{StaticResource clr-primary}"
+                                WidthRequest="40" />
+                                            <Label
+                                Margin="0,5,0,5"
+                                FontSize="12"
+                                HorizontalOptions="Center"
+                                Text="Light" />
+                                        </StackLayout>
+                                    </RadioButton.Content>
+                                </RadioButton>
+                                <RadioButton
+                    x:Name="RadioButtonDarkTheme"
+                    Grid.Column="2"
+                    ControlTemplate="{StaticResource BasicRadioTemplate}"
+                    HorizontalOptions="Center"
+                    IsChecked="{Binding IsDarkRadioChecked}"
+                    Value="Dark">
+                                    <RadioButton.Content>
+                                        <StackLayout HorizontalOptions="Center" VerticalOptions="EndAndExpand">
+                                            <BoxView
+                                HeightRequest="40"
+                                                HorizontalOptions="Center"
+                                                xct:CornerRadiusEffect.CornerRadius="20"
+                                                Color="{StaticResource clr-accent-dark}"
+                                WidthRequest="40" />
+                                            <Label
+                                Margin="0,5,0,5"
+                                FontSize="12"
+                                HorizontalOptions="Center"
+                                Text="Dark" />
+                                        </StackLayout>
+                                    </RadioButton.Content>
+                                </RadioButton>
+                            </FlexLayout>
+                        </ScrollView>
+                    </StackLayout>
+                </Frame>
+
+                <Frame class="basic-frame" HorizontalOptions="FillAndExpand"
+                                           Padding="20,10" Margin="0,20,0,0">
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Locations Limit" FontSize="20" VerticalOptions="Center"/>
+                        <renderers:BorderlessEntry HorizontalOptions="FillAndExpand"  Keyboard="Numeric" HorizontalTextAlignment="End" Placeholder="Limit" Text="{Binding LocationsLimit}" ReturnCommand="{Binding AcceptLimitCommand}"/>
+                    </StackLayout>
+                </Frame>
+
+                <Frame class="basic-frame" HorizontalOptions="FillAndExpand"
+                                           Padding="20,10" Margin="0,20,0,0">
+                    <StackLayout>
+                        <Label Text="App Id" FontSize="20" VerticalOptions="Center"/>
+                        <Entry FontSize="14" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End" Placeholder="App Id From OpenWeather" Text="{Binding AppId}" ReturnCommand="{Binding AcceptLimitCommand}"/>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
